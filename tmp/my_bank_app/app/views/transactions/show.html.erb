@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>From account:</strong>
+  <ul>
+    <li>Account ID: <%= @transaction.from_account.id %></li>
+    <li>User Name: <%= @transaction.from_account.user.name %></li>
+    <li>Account Balance: <%= @transaction.from_account.balance %></li>
+  </ul>
+</p>
+
+<p>
+  <strong>To account:</strong>
+  <ul>
+    <li>Account ID: <%= @transaction.to_account.id %></li>
+    <li>User Name: <%= @transaction.to_account.user.name %></li>
+    <li>Account Balance: <%= @transaction.to_account.balance %></li>
+  </ul>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @transaction.amount %>
+</p>
+
+<%= link_to 'Edit', edit_transaction_path(@transaction) %> |
+<%= link_to 'Back', transactions_path %>
