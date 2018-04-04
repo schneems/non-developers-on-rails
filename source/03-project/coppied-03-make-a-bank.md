@@ -6,7 +6,7 @@ If you're using your app from last time you can skip this section.
 
 Here's the short version of what you'll need.
 
-```sh
+```
 :::>- $ rails _5.1.6_ new my_bank_app
 :::>- $ cd my_bank_app
 :::>- $ bin/rails generate scaffold user name:string
@@ -15,7 +15,7 @@ Here's the short version of what you'll need.
 
 In one console tab start your server (if one isn't already running).
 
-```sh
+```
 $ bin/rails server
 ```
 
@@ -360,11 +360,15 @@ It should look like this:
 :::-> $ ls -Ad1 db/migrate/* | grep create_transactions.rb | xargs cat
 ```
 
+First remove these lines:
+
 ```ruby
 :::>> file.remove db/migrate/*_create_transactions.rb
       t.references :from_account, foreign_key: true
       t.references :to_account, foreign_key: true
 ```
+
+Then add these lines:
 
 ```ruby
 :::>> file.append db/migrate/*_create_transactions.rb#4
@@ -375,7 +379,7 @@ It should look like this:
 Next up migrate the database:
 
 ```sh
-:::>> $ bin/rails db:migrate
+$ bin/rails db:migrate
 ```
 
 
@@ -394,8 +398,7 @@ Really quick, before we go any further - make sure that there are at least two u
 ```
 > Account.create(balance: 50, user_id: 1)
 > Account.create(balance: 50, user_id: 2)
-:::-> $ rails runner -e "puts Account.create(balance: 50, user_id: 1).inspect"
-:::-> $ rails runner -e "puts Account.create(balance: 50, user_id: 2).inspect"
+:::-> $ echo "Account.create(balance: 50, user_id: 1); Account.create(balance: 50, user_id: 2)" | rails c | sed -e '/Loading development environment/d' | sed -e '/Switch to inspect mode./d'
 ```
 
 Now if you go to [http://localhost:3000/transactions/new](http://localhost:3000/transactions/new) you'll see a page that looks like this:
@@ -462,6 +465,7 @@ In this view you can see where it is rendering the "to account"
 ```
 
 Replace that line with some more information:
+
 
 ```erb
   <ul>

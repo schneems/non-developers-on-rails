@@ -1,0 +1,15 @@
+<h1>Welcome to our Banking App <%= @user.name %></h2>
+
+<p>
+  <%= @message %>
+</p>
+
+<div>
+  You have <%= @user.accounts.count %> accounts.
+
+  <ul>
+    <% @user.accounts.each do |account| %>
+      <li>$ <%= account.balance %></li>
+    <% end %>
+  </ul>
+</div>
