@@ -55,7 +55,6 @@ To migrate the database run this command:
 
 While some of the output is based on a timestamp (the numbers you see before `CreateUsers:` the rest should be very similar.
 
-
 Make sure that you have a server running in one of your terminal tabs. If not you can run:
 
 ```
@@ -168,6 +167,61 @@ It's not much to look at, but you can see that it has some html tags and some ot
 > Extra: In Ruby this style of a view file is known as ERB which stands for "Embedded RuBy" since we're embedding ruby code from within our HTML file.
 
 We can put Ruby code in these tags and when the view is rendered, the Ruby code will be run.
+
+## Debugging Errors
+
+Before we make a valid change to the view, we will add some invalid code so you can see what it looks like and how to debug an issue if your run into it in the wild.
+
+```erb
+:::>> file.append app/views/users/new.html.erb
+<%= bad.code %>
+```
+
+![](https://www.dropbox.com/s/t31wdt6wgl7vd1t/Screenshot%202018-04-04%2010.19.09.png?raw=1)
+
+The red page lets us know that there was an issue. The title `NameError in Users#new` indicates that a "NameError" occured, in this case Ruby thinks that `bad` should be an object or a method, but it does not exist, so therefore it is a "bad name".
+
+The next important piece is finding out where the error happens. While the path is very long, you can see that the error happens on line 7 of this file:
+
+```
+app/views/users/new.html.erb where line #7 raised
+```
+
+The next thing we see is the line in our source code where the problem is.
+
+In addition to the error page, if you go to the command line where you started your server, you should see a "log" of the request:
+
+```
+Started GET "/users/new" for 127.0.0.1 at 2018-04-04 10:24:37 -0700
+Processing by UsersController#new as HTML
+  Rendering users/new.html.erb within layouts/application
+  Rendered users/_form.html.erb (1.4ms)
+  Rendered users/new.html.erb within layouts/application (194.1ms)
+Completed 500 Internal Server Error in 203ms (ActiveRecord: 0.0ms)
+
+
+
+ActionView::Template::Error (undefined local variable or method `bad' for #<#<Class:0x00007f853c9038c8>:0x00007f853746ca30>):
+    4:
+    5: <%= link_to 'Back', users_path %>
+    6:
+    7: <%= bad.code %>
+
+app/views/users/new.html.erb:7:in `_app_views_users_new_html_erb__3868892801760625709_70105067384580'
+```
+
+You get roughly the same information here, the line and file where the error occured, and even a small snapshot of the problem.
+
+In this case the solution is to remove the bad code, in the future you'll likely need to use this information (the error page, and the logs) to figure out what went wrong.
+
+```erb
+:::>> file.remove app/views/users/new.html.erb
+<%= bad.code %>
+```
+
+## Valid views
+
+Now that you know how to debug an issue, we will add some valid ERB:
 
 ```erb
 :::>> file.append app/views/users/new.html.erb
@@ -373,7 +427,7 @@ You should see this on the page:
 
 Try changing the text in the `welcome_controller.rb` and reloading the page, what happens?
 
-> Extra: As a challenge can you figure out a way in Ruby to make the message always be output as all caps? Hint: try [String#upcase]().
+> Extra: As a challenge can you figure out a way in Ruby to make the message always be output as all caps? Hint: try [String#upcase](https://ruby-doc.org/core-2.5.0/String.html#method-i-upcase).
 
 ## Recap
 

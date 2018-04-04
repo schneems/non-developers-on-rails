@@ -56,7 +56,7 @@ For this course we'll be using Rails 5.1.6 which may be different than what is i
 Run:
 
 ```sh
-:::> $ gem install rails -v 5.1.6 --no-document
+:::>> $ gem install rails -v 5.1.6 --no-document
 ```
 
 > Extra: The `gem` command is used to install libraries that are used by Ruby. Rails is one such library. The `-v` flag designates the version you want installed, if you omit it then you'll get the latest version. The `--no-document` switch tells the `gem` command to not parse and generate documentaion for Rails locally. Don't worry it's still available online. Open source libraries for Ruby are hosted at https://www.rubygems.org. You can get more info about available commands to `gem` by running `$ gem --help`

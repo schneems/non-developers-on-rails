@@ -3,7 +3,7 @@
 
   Instead modify the rundoc script and re-run it.
 
-  Command: /Users/rschneeman/.gem/ruby/2.5.1/bin/rundoc build --path=source/02-intro-app.md
+  Command: /Users/rschneeman/.gem/ruby/2.6.0/bin/rundoc build --path=source/02-intro-app.md
 STOP -->
 
 ## Prequel
@@ -25,13 +25,13 @@ Verify that you're in the `my_bank_app` by running this command and verifying yo
 
 ```sh
 $ bin/rails test
-Run options: --seed 39700
+Run options: --seed 4433
 
 # Running:
 
 
 
-Finished in 0.000414s, 0.0000 runs/s, 0.0000 assertions/s.
+Finished in 0.000405s, 0.0000 runs/s, 0.0000 assertions/s.
 0 runs, 0 assertions, 0 failures, 0 errors, 0 skips
 ```
 
@@ -52,37 +52,91 @@ Run this command, and note that `user` is not plural (i.e. does not end in an "s
 ```sh
 $ bin/rails generate scaffold user name:string
       invoke  active_record
-      create    db/migrate/20180403180332_create_users.rb
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
+      create    db/migrate/20180404172840_create_users.rb
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create    app/models/user.rb
       invoke    test_unit
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      test/models/user_test.rb
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      test/fixtures/users.yml
       invoke  resource_route
        route    resources :users
       invoke  scaffold_controller
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create    app/controllers/users_controller.rb
       invoke    erb
       create      app/views/users
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/users/index.html.erb
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/users/edit.html.erb
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/users/show.html.erb
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/users/new.html.erb
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/users/_form.html.erb
       invoke    test_unit
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      test/controllers/users_controller_test.rb
       invoke    helper
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/helpers/users_helper.rb
       invoke      test_unit
       invoke    jbuilder
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/users/index.json.jbuilder
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/users/show.json.jbuilder
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/users/_user.json.jbuilder
       invoke  test_unit
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create    test/system/users_test.rb
       invoke  assets
       invoke    coffee
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/assets/javascripts/users.coffee
       invoke    scss
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/assets/stylesheets/users.scss
       invoke  scss
       create    app/assets/stylesheets/scaffolds.scss
@@ -102,14 +156,13 @@ To migrate the database run this command:
 
 ```
 $ bin/rails db:migrate
-== 20180403180332 CreateUsers: migrating ======================================
+== 20180404172840 CreateUsers: migrating ======================================
 -- create_table(:users)
    -> 0.0006s
-== 20180403180332 CreateUsers: migrated (0.0006s) =============================
+== 20180404172840 CreateUsers: migrated (0.0007s) =============================
 ```
 
 While some of the output is based on a timestamp (the numbers you see before `CreateUsers:` the rest should be very similar.
-
 
 Make sure that you have a server running in one of your terminal tabs. If not you can run:
 
@@ -227,6 +280,59 @@ It's not much to look at, but you can see that it has some html tags and some ot
 > Extra: In Ruby this style of a view file is known as ERB which stands for "Embedded RuBy" since we're embedding ruby code from within our HTML file.
 
 We can put Ruby code in these tags and when the view is rendered, the Ruby code will be run.
+
+## Debugging Errors
+
+Before we make a valid change to the view, we will add some invalid code so you can see what it looks like and how to debug an issue if your run into it in the wild.
+
+At the end of `app/views/users/new.html.erb` add:
+
+```erb
+<%= bad.code %>
+```
+
+![](https://www.dropbox.com/s/t31wdt6wgl7vd1t/Screenshot%202018-04-04%2010.19.09.png?raw=1)
+
+The red page lets us know that there was an issue. The title `NameError in Users#new` indicates that a "NameError" occured, in this case Ruby thinks that `bad` should be an object or a method, but it does not exist, so therefore it is a "bad name".
+
+The next important piece is finding out where the error happens. While the path is very long, you can see that the error happens on line 7 of this file:
+
+```
+app/views/users/new.html.erb where line #7 raised
+```
+
+The next thing we see is the line in our source code where the problem is.
+
+In addition to the error page, if you go to the command line where you started your server, you should see a "log" of the request:
+
+```
+Started GET "/users/new" for 127.0.0.1 at 2018-04-04 10:24:37 -0700
+Processing by UsersController#new as HTML
+  Rendering users/new.html.erb within layouts/application
+  Rendered users/_form.html.erb (1.4ms)
+  Rendered users/new.html.erb within layouts/application (194.1ms)
+Completed 500 Internal Server Error in 203ms (ActiveRecord: 0.0ms)
+ActionView::Template::Error (undefined local variable or method `bad' for #<#<Class:0x00007f853c9038c8>:0x00007f853746ca30>):
+    4:
+    5: <%= link_to 'Back', users_path %>
+    6:
+    7: <%= bad.code %>
+app/views/users/new.html.erb:7:in `_app_views_users_new_html_erb__3868892801760625709_70105067384580'
+```
+
+You get roughly the same information here, the line and file where the error occured, and even a small snapshot of the problem.
+
+In this case the solution is to remove the bad code, in the future you'll likely need to use this information (the error page, and the logs) to figure out what went wrong.
+
+In file `app/views/users/new.html.erb` remove:
+
+```erb
+<%= bad.code %>
+```
+
+## Valid views
+
+Now that you know how to debug an issue, we will add some valid ERB:
 
 At the end of `app/views/users/new.html.erb` add:
 
@@ -417,18 +523,33 @@ We're going to create a controller. Previously we used `$ rails generate scaffol
 
 ```sh
 $ rails generate controller welcome
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create  app/controllers/welcome_controller.rb
       invoke  erb
       create    app/views/welcome
       invoke  test_unit
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create    test/controllers/welcome_controller_test.rb
       invoke  helper
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create    app/helpers/welcome_helper.rb
       invoke    test_unit
       invoke  assets
       invoke    coffee
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/assets/javascripts/welcome.coffee
       invoke    scss
+warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
+warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
+warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/assets/stylesheets/welcome.scss
 ```
 
@@ -500,7 +621,7 @@ You should see this on the page:
 
 Try changing the text in the `welcome_controller.rb` and reloading the page, what happens?
 
-> Extra: As a challenge can you figure out a way in Ruby to make the message always be output as all caps? Hint: try [String#upcase]().
+> Extra: As a challenge can you figure out a way in Ruby to make the message always be output as all caps? Hint: try [String#upcase](https://ruby-doc.org/core-2.5.0/String.html#method-i-upcase).
 
 ## Recap
 
