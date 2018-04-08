@@ -34,10 +34,12 @@ The next thing to do is set up Ruby and Rails.
 
 http://guides.railsgirls.com/install#setup-for-os-x
 
+<!-- Tell people to get out of "myapp" if they want -->
+
 You need to use a version of Ruby greater than 2.3, it's fine if you're not using the exact same version as these instructions, but it will work better if you do. These instructions were created using:
 
 ```sh
-$ ruby -v
+:::>> $ ruby -v
 ```
 
 ## Verify Setup and Create a Rails App
@@ -69,8 +71,7 @@ Now that you're in your own project directory ensure that Rails is installed and
 :::>> $ rails _5.1.6_ new my_bank_app
 ```
 
- > Extra: The `rails` command was installed via the `gem` command, not all gems install CLI (command line interface) commands. The `_5.1.6_` part is an advanced feature that lets us specify exactly which version of `rails` to use if multiple are on the machine. Once you are working inside of an existing project you won't need to specify version in this way. The `new` is a command to `rails` to create a new project directory. The `my_bank_app` is the name of our project directory. You can get more info about these options by running `$ rails _5.1.6_ --help`.
-
+> Extra: The `rails` command was installed via the `gem` command, not all gems install CLI (command line interface) commands. The `_5.1.6_` part is an advanced feature that lets us specify exactly which version of `rails` to use if multiple are on the machine. Once you are working inside of an existing project you won't need to specify version in this way. The `new` is a command to `rails` to create a new project directory. The `my_bank_app` is the name of our project directory. You can get more info about these options by running `$ rails _5.1.6_ --help`.
 
 Now that you've created a new Rails project, move into the new directory and start your Rails server:
 

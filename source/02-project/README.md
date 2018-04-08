@@ -3,7 +3,7 @@
 
   Instead modify the rundoc script and re-run it.
 
-  Command: /Users/rschneeman/.gem/ruby/2.6.0/bin/rundoc build --path=source/02-intro-app.md
+  Command: /Users/rschneeman/.gem/ruby/2.6.0/bin/rundoc build --path source/02-intro-app.md
 STOP -->
 
 ## Prequel
@@ -15,8 +15,25 @@ $ rails _5.1.6_ new my_bank_app
 $ cd my_bank_app
 ```
 
-If you still have your server running from the last section, you may need to open up a new command line tab. On a mac you can do that by pressing CMD+T.
+Start your rails server:
 
+```
+$ bin/rails server
+=> Booting Puma
+=> Rails 5.1.6 application starting in development 
+=> Run `rails server -h` for more startup options
+Puma starting in single mode...
+* Version 3.11.3 (ruby 2.6.0-p-1), codename: Love Song
+* Min threads: 5, max threads: 5
+* Environment: development
+* Listening on tcp://0.0.0.0:3000
+Use Ctrl-C to stop
+```
+
+If you see an output that says `A server is already running`, check your other command line tabs to see if another server is always running.
+
+Open up a new command line tab. On a mac you can do that by pressing CMD+T.
+e
 When you type in a command, make sure you always see the `$` in your own command line, if you're entering in text and it doesn't appear to be doing anything, you may accidentally be inside of a server tab.
 
 Navigate to the same directory as `my_bank_app` in this new tab using `cd`. If you don't remember how to get to that directory you can stop your server by pressing `Control+C` (note that it's Control and not CMD this time) inside of the server window. Once you've done that you can get the current directory by running `$ pwd`.
@@ -25,13 +42,13 @@ Verify that you're in the `my_bank_app` by running this command and verifying yo
 
 ```sh
 $ bin/rails test
-Run options: --seed 4433
+Run options: --seed 22620
 
 # Running:
 
 
 
-Finished in 0.000405s, 0.0000 runs/s, 0.0000 assertions/s.
+Finished in 0.000415s, 0.0000 runs/s, 0.0000 assertions/s.
 0 runs, 0 assertions, 0 failures, 0 errors, 0 skips
 ```
 
@@ -55,7 +72,7 @@ $ bin/rails generate scaffold user name:string
 warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
 warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
 warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
-      create    db/migrate/20180404172840_create_users.rb
+      create    db/migrate/20180408025525_create_users.rb
 warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
 warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
 warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
@@ -156,10 +173,10 @@ To migrate the database run this command:
 
 ```
 $ bin/rails db:migrate
-== 20180404172840 CreateUsers: migrating ======================================
+== 20180408025525 CreateUsers: migrating ======================================
 -- create_table(:users)
-   -> 0.0006s
-== 20180404172840 CreateUsers: migrated (0.0007s) =============================
+   -> 0.0008s
+== 20180408025525 CreateUsers: migrated (0.0008s) =============================
 ```
 
 While some of the output is based on a timestamp (the numbers you see before `CreateUsers:` the rest should be very similar.
@@ -197,6 +214,8 @@ Extra: Notice that instead of `user/1` the URL now points at `users/2`. This has
 You can also view all your users by visting [http://localhost:3000/users](http://localhost:3000/users):
 
 ![](https://www.dropbox.com/s/hqfp903lhr39uu3/Screenshot%202018-03-29%2015.57.59.png?raw=1)
+
+<!--
 
 ## Make a User in the Console
 
@@ -242,6 +261,8 @@ If you can't seem to get any output from the above command you might have entere
 Now that you've created another user via the console, open up your browser back to [http://localhost:3000/users](http://localhost:3000/users) and verify the user shows up on the webpage by refreshing the page.
 
 ![](https://www.dropbox.com/s/tpnz8w5t9498qo7/Screenshot%202018-03-29%2016.16.35.png?raw=1)
+
+-->
 
 ## Views
 
@@ -291,6 +312,20 @@ At the end of `app/views/users/new.html.erb` add:
 <%= bad.code %>
 ```
 
+The file should look like this:
+
+```
+$ cat app/views/users/new.html.erb
+<h1>New User</h1>
+
+<%= render 'form', user: @user %>
+
+<%= link_to 'Back', users_path %>
+<%= bad.code %>
+```
+
+When you visit [http://localhost:3000/users/new](http://localhost:3000/users/new), you should get an error that looks like this:
+
 ![](https://www.dropbox.com/s/t31wdt6wgl7vd1t/Screenshot%202018-04-04%2010.19.09.png?raw=1)
 
 The red page lets us know that there was an issue. The title `NameError in Users#new` indicates that a "NameError" occured, in this case Ruby thinks that `bad` should be an object or a method, but it does not exist, so therefore it is a "bad name".
@@ -337,6 +372,19 @@ Now that you know how to debug an issue, we will add some valid ERB:
 At the end of `app/views/users/new.html.erb` add:
 
 ```erb
+<hr />
+The time is now: <%= Time.now %>
+```
+
+The output should look like this:
+
+```erb
+$ cat app/views/users/new.html.erb
+<h1>New User</h1>
+
+<%= render 'form', user: @user %>
+
+<%= link_to 'Back', users_path %>
 <hr />
 The time is now: <%= Time.now %>
 ```
@@ -396,22 +444,7 @@ Rails.application.routes.draw do
 end
 ```
 
-You'll see there's not much there. There is one method `resources`, this is a fancy way of generating all the routes we need for our current web app. You can see all the different paths that are generated by this route file by running:
-
-```sh
-$ bin/rails routes
-   Prefix Verb   URI Pattern               Controller#Action
-    users GET    /users(.:format)          users#index
-          POST   /users(.:format)          users#create
- new_user GET    /users/new(.:format)      users#new
-edit_user GET    /users/:id/edit(.:format) users#edit
-     user GET    /users/:id(.:format)      users#show
-          PATCH  /users/:id(.:format)      users#update
-          PUT    /users/:id(.:format)      users#update
-          DELETE /users/:id(.:format)      users#destroy
-```
-
-> Note: You can also view the same output by visiting [http://localhost:3000/rails/info/routes](http://localhost:3000/rails/info/routes) which is a feature I added to Rails ;)
+You'll see there's not much there. There is one method `resources`, this is a fancy way of generating all the routes we need for our current web app. You can see all the different paths that are generated by this route file by visiting [http://localhost:3000/rails/info/routes](http://localhost:3000/rails/info/routes) which is a feature I added to Rails ;)
 
 The output is a bit hard to parse at first. We'll look at the "URI Pattern" part. Don't worry about the format part.
 
@@ -422,7 +455,6 @@ Next to these items you'll notice another column called `Controller#Action`. Ite
 Let's take a look at `/users/new`. This maps to the `users#new` controller.
 
 Go ahead and open up the `users` controller. It is located at `app/controllers/users_controller.rb`.
-
 
 ```ruby
 class UsersController < ApplicationController
@@ -448,7 +480,10 @@ class UsersController < ApplicationController
 ```
 
 <!--
-Ruby regex here: http://rubular.com/r/kW7w7jwdfF
+Show the first part of the file until we get to the
+def new method definition, here's the regex here:
+http://rubular.com/r/kW7w7jwdfF
+
 then we append a # ...
 -->
 
@@ -568,23 +603,10 @@ The next thing we need is a way to "route" to this controller.
 In file `config/routes.rb`, on line 2 add:
 
 ```ruby
+  root to: 'welcome#index'
 ```
 
-Verify that this worked by running:
-
-```sh
-$ bin/rails routes
-   Prefix Verb   URI Pattern               Controller#Action
-     root GET    /                         welcome#index
-    users GET    /users(.:format)          users#index
-          POST   /users(.:format)          users#create
- new_user GET    /users/new(.:format)      users#new
-edit_user GET    /users/:id/edit(.:format) users#edit
-     user GET    /users/:id(.:format)      users#show
-          PATCH  /users/:id(.:format)      users#update
-          PUT    /users/:id(.:format)      users#update
-          DELETE /users/:id(.:format)      users#destroy
-```
+Verify that this worked by visting [http://localhost:3000/rails/info/routes](http://localhost:3000/rails/info/routes).
 
 You should see a `/` under the URI pattern section that points to `welcome#index`.
 
@@ -595,6 +617,20 @@ It's a controller action that we need to add. When you call it it will render `a
 In file `app/controllers/welcome_controller.rb`, on line 2 add:
 
 ```ruby
+  def index
+    @message = "Hello world"
+  end
+```
+
+The file should look like this:
+
+```rb
+$ cat app/controllers/welcome_controller.rb
+class WelcomeController < ApplicationController
+  def index
+    @message = "Hello world"
+  end
+end
 ```
 
 > Extra: In Ruby the "action" here of `index` is called a "method".
@@ -607,10 +643,22 @@ You may be wondering why did we use the word `index` for our action name? By def
 
 We're almost done. We've got a route, we've got a controller, all we need is a view.
 
+To do this you will need to create a new file. Create the file by running this command, or via your text editor:
+
+```sh
+$ touch app/views/welcome/index.html.erb
+```
+
+> Note: To create this file in your text editor start by expanding the folders `app` -> `views` -> `welcome`. Next right click on the `welcome` folder and select the "New File" option. Name the file `index.html.erb` and then save it.
 
 In file `app/views/welcome/index.html.erb` write:
 
 ```erb
+<h1>Welcome to our Banking App</h2>
+
+<p>
+  <%= @message %>
+</p>
 ```
 
 You should see this on the page:
