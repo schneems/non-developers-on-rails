@@ -1,68 +1,48 @@
-## The Saga Continues
-
-You're welcome to use the banking app from the last project, or if you want you can create a new one, though if you do that I recommend naming it something different.
-
-If you're using your app from last time you can skip this section.
-
-Here's the short version of what you'll need.
-
-```
-:::>- $ rails _5.1.6_ new my_bank_app
-:::>- $ cd my_bank_app
-:::>- $ bin/rails generate scaffold user name:string
-:::>- $ bin/rails db:migrate
-```
-
-In one console tab start your server (if one isn't already running).
-
-```
-$ bin/rails server
-```
-
-Make sure you have at least 3 users in your app. You can do this in the `$ bin/rails console` or via the web interface at [http://localhost:3000/users/new](http://localhost:3000/users/new)
-
-```
+```sh
+:::-- $ rails _5.1.6_ new my_bank_app
+:::-- $ cd my_bank_app
+:::-- $ bin/rails generate scaffold user name:string
+:::-- $ bin/rails db:migrate
 :::-- $ rails runner 'User.create(name: "Schneems"); User.create(name: "Ruby"); User.create(name: "Cinco")'
 ```
 
-These sections are not 100% required, but will be nice to have the app looking the same as mine
-
-```erb
-:::>> file.append app/views/layouts/application.html.erb#13
+```
+:::-- file.append app/views/layouts/application.html.erb#13
     <hr />
     The time is now: <%= Time.now %>
 ```
 
-Generate your welcome controller, route and view:
-
-```sh
-:::>- $ rails generate controller welcome
+```
+:::-- $ rails generate controller welcome
 ```
 
-```ruby
-:::>> file.append config/routes.rb#2
+```
+:::-- file.append config/routes.rb#2
   root to: 'welcome#index'
 ```
 
-```ruby
-:::>> file.append app/controllers/welcome_controller.rb#2
+```
+:::-- file.append app/controllers/welcome_controller.rb#2
   def index
     @message = "Hello world"
   end
 ```
 
-```erb
-:::>> file.write app/views/welcome/index.html.erb
-<h1>Welcome to our Banking App</h2>
+```
+:::-- file.write app/views/welcome/index.html.erb
+<h2>Welcome to our Banking App</h2>
 
 <p>
   <%= @message %>
 </p>
 ```
 
-Now that we're on the same page, let's add some features.
+<!-- Make sure you have at least 3 users in your app. You can do this in the `$ bin/rails console` or via the web interface at [http://localhost:3000/users/new](http://localhost:3000/users/new)
+-->
 
 ## Accounts
+
+<!-- Slides for what is a model -->
 
 Having a user model is all fine and good, but what about an account? When I log into my banking app, I have a savings account and a checking account. In fact I have have multiple checking and savings accounts. Some banks offer money market accounts, certificate of deposits, and more.
 
@@ -274,7 +254,7 @@ Now in your view, show the user's name:
 
 ```erb
 :::>> file.write app/views/welcome/index.html.erb
-<h1>Welcome to our Banking App <%= @user.name %></h2>
+<h2>Welcome to our Banking App <%= @user.name %></h2>
 
 <p>
   <%= @message %>
@@ -289,7 +269,7 @@ Now let's add some information about the accounts. To do this we're going to loo
 
 ```erb
 :::>> file.write app/views/welcome/index.html.erb
-<h1>Welcome to our Banking App <%= @user.name %></h2>
+<h2>Welcome to our Banking App <%= @user.name %></h2>
 
 <p>
   <%= @message %>
@@ -310,11 +290,11 @@ If you made more than one account for your user by accident (or on purpose) then
 
 ![](https://www.dropbox.com/s/udil9z3mqt89rjt/Screenshot%202018-04-02%2014.29.53.png?raw=1)
 
-
 If you get an error try to go back and copy the code character for character. You can also use any error messages you get to try to tell you where the problem is.
 
 I introduced a new format in this view that you've not seen before. That `do ||` format is called a block.
 
+<!--
 ## Block syntax
 
 To understand what's going on in the above view, you need to have a vauge idea of what a block does. In your rails console or in a new tab with `$ irb` you can run this code:
@@ -333,6 +313,8 @@ Feel free to play around a bit if you want here. Try adding more numbers to the 
 While a block might look weird, and have a strange name, it's usually just a way of iterating over data.
 
 Back to our app.
+
+-->
 
 ## Transactions
 
@@ -360,15 +342,11 @@ It should look like this:
 :::-> $ ls -Ad1 db/migrate/* | grep create_transactions.rb | xargs cat
 ```
 
-First remove these lines:
-
 ```ruby
 :::>> file.remove db/migrate/*_create_transactions.rb
       t.references :from_account, foreign_key: true
       t.references :to_account, foreign_key: true
 ```
-
-Then add these lines:
 
 ```ruby
 :::>> file.append db/migrate/*_create_transactions.rb#4
@@ -376,12 +354,19 @@ Then add these lines:
       t.references :from_account, index: true, foreign_key: { to_table: :accounts }
 ```
 
+**STOP** Before you continue make sure that your file looks like this:
+
+```
+:::-> $ ls -Ad1 db/migrate/* | grep create_transactions.rb | xargs cat
+```
+
+If your file looks like that, continue on. If not, fix any issues before migrating your database
+
 Next up migrate the database:
 
 ```sh
-$ bin/rails db:migrate
+:::>> $ bin/rails db:migrate
 ```
-
 
 After the database is migrated we need to let Rails know about our association:
 
@@ -391,14 +376,26 @@ After the database is migrated we need to let Rails know about our association:
   belongs_to :from_account, class_name: "Account"
 ```
 
+The whole file looks like this:
+
+```
+:::>> $ cat app/models/transaction.rb
+```
+
 In this case we had to specify a class name in addition to the name of the column.
 
-Really quick, before we go any further - make sure that there are at least two users with at least one accont each. In your `$ rails console` you can run:
+Really quick, before we go any further - make sure that there are at least two users with at least one accont each. In your `$ rails console` create one account:
 
 ```
 > Account.create(balance: 50, user_id: 1)
+:::-> $ rails runner "puts Account.create(balance: 50, user_id: 1).inspect"
+```
+
+And then another (note that the user id changed):
+
+```
 > Account.create(balance: 50, user_id: 2)
-:::-> $ echo "Account.create(balance: 50, user_id: 1); Account.create(balance: 50, user_id: 2)" | rails c | sed -e '/Loading development environment/d' | sed -e '/Switch to inspect mode./d'
+:::-> $ rails runner "puts Account.create(balance: 50, user_id: 2).inspect"
 ```
 
 Now if you go to [http://localhost:3000/transactions/new](http://localhost:3000/transactions/new) you'll see a page that looks like this:
@@ -421,6 +418,12 @@ To do this we will use a "callback" in the transaction model.
   end
 ```
 
+The whole file looks like this:
+
+```
+:::>> $ cat app/models/transaction.rb
+```
+
 This code is saying that after the database record is created (that's our `after_commit` callback) run the method `transfer_the_dough`. Then inside of that method we're performing our logic of removing the transfer amount from one account and adding it to another account. Finally we're going to save both the from and true accounts back to the database.
 
 Go back to your web browser to [http://localhost:3000/transactions/new](http://localhost:3000/transactions/new)
@@ -431,22 +434,11 @@ In the "From account" field enter `1`. In the "To account" field enter `2`. Put 
 
 This means that the transaction was created. This page isn't terribly pretty, or helpful. While it does show the amount transfered, the representation of the to and from accounts doesn't mean much.
 
-Verify that the balance of your accounts using the Rails console:
-
-```
-$ bin/rails console
-> puts Account.where(id: 1).first.balance.to_digits
-> puts Account.where(id: 2).first.balance.to_digits
-```
-
-The first account should have a lower balance and the second account should have a greater balance.
-
-You can also see a change in balance looking at your welcome page [http://localhost:3000/](http://localhost:3000/):
+You can see a change in balance looking at your welcome page [http://localhost:3000/](http://localhost:3000/):
 
 ![](https://www.dropbox.com/s/siow659v6v1su9r/Screenshot%202018-04-03%2008.30.56.png?raw=1)
 
 > Note: Your values and the number of accounts you've created may be different than mine.
-
 
 At this point and time we verified that the functionality of the app works, but that page we got after we made a new transaction wasn't very helpful. You can get back to it by visiting [http://localhost:3000/transactions/1](http://localhost:3000/transactions/1).
 
@@ -465,7 +457,6 @@ In this view you can see where it is rendering the "to account"
 ```
 
 Replace that line with some more information:
-
 
 ```erb
   <ul>

@@ -1,6 +1,6 @@
 ## Prequel
 
-If you didn't already follow the instructions in the previous section to generate a rails app named `my_bank_app` do so now. We'll wait. You should also be in that directory
+If you didn't already follow the instructions in the previous section to generate a rails app named `my_bank_app` do so now. We'll wait. You should also be in that directory:
 
 ```
 :::>- $ rails _5.1.6_ new my_bank_app
@@ -18,7 +18,7 @@ $ bin/rails server
 If you see an output that says `A server is already running`, check your other command line tabs to see if another server is always running.
 
 Open up a new command line tab. On a mac you can do that by pressing CMD+T.
-e
+
 When you type in a command, make sure you always see the `$` in your own command line, if you're entering in text and it doesn't appear to be doing anything, you may accidentally be inside of a server tab.
 
 Navigate to the same directory as `my_bank_app` in this new tab using `cd`. If you don't remember how to get to that directory you can stop your server by pressing `Control+C` (note that it's Control and not CMD this time) inside of the server window. Once you've done that you can get the current directory by running `$ pwd`.
@@ -49,9 +49,9 @@ Run this command, and note that `user` is not plural (i.e. does not end in an "s
 
 This command tells rails to use the `generate` command. What are we generating? Rails has the concept of a "scaffold" that contains a model, view, controller and routes (which we'll get into later). We're telling the scaffold that we want to name our model `user` and that user has one field a `name`. That `name` field is a string (i.e. text).
 
-If you messed up this command, you can run `$ bin/rails destroy scaffold` and pass in the same arguments to revert.
+If you messed up this command, you can run `$ bin/rails destroy scaffold` and pass in the same arguments to revert, then run the `generate` command again.
 
-This command did a whole lot. We'll look into it more later, but first lets test drive the feature you just added to your snazzy webapp.
+This `generate` command did a whole lot. We'll look into it more later, but first let's test drive the feature you just added to your snazzy webapp.
 
 While we generated a bunch of code and some configuration, we need to let our database for our app know that it needs to update to the new configuration. We can do this by "migrating" the database. This is a fancy way of saying applying new configuration.
 
@@ -443,7 +443,7 @@ To do this you will need to create a new file. Create the file by running this c
 
 ```erb
 :::>> file.write app/views/welcome/index.html.erb
-<h1>Welcome to our Banking App</h2>
+<h2>Welcome to our Banking App</h2>
 
 <p>
   <%= @message %>
@@ -465,4 +465,3 @@ Try changing the text in the `welcome_controller.rb` and reloading the page, wha
 At this point you've created a model (`User`) via a scaffold, you've manually generated a controller (`welcome_controller.rb`), it's view (`app/views/welcome/index.html.erb`), and you added a route to `config/routes.rb`. You can also roughly trace the request/response relationship to your own code (the Model, View, Controller and Routes).
 
 That's all for today. While this banking app doesn't do much, we've laid the groundwork to start building some actual features. We'll be building off of what we did in this section, so if you're unclear about something or could not get a part to work, now is the time to go back to it.
-
