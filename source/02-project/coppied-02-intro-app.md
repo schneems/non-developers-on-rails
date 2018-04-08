@@ -67,11 +67,15 @@ While some of the output is based on a timestamp (the numbers you see before `Cr
 
 Make sure that you have a server running in one of your terminal tabs. If not, you can run:
 
+<!--
+
 ```
 $ bin/rails server
 ```
 
 > Extra: Many of the very popular commands have shortcuts, for instance `$ rails s` is the same as `$ rails server` and `$ rails g` is the same as `rails generate`. For the sake of clarity, I will always use the full command.
+
+-->
 
 Now that you've verified that your server is running, visit [http://localhost:3000/users/new](http://localhost:3000/users/new).
 
@@ -194,7 +198,7 @@ Before we make a valid change to the view, we will add some invalid code so you 
 The file should look like this:
 
 ```
-:::>> $ cat app/views/users/new.html.erb
+:::-> $ cat app/views/users/new.html.erb
 ```
 
 When you visit [http://localhost:3000/users/new](http://localhost:3000/users/new), you should get an error that looks like this:
@@ -252,7 +256,7 @@ The time is now: <%= Time.now %>
 The output should look like this:
 
 ```erb
-:::>> $ cat app/views/users/new.html.erb
+:::-> $ cat app/views/users/new.html.erb
 ```
 
 Make sure you saved your file.
@@ -273,7 +277,7 @@ Inside of this file you'll notice the erb block that looks like this:
 <%= yield %>
 ```
 
-This is a keyword that lets our app know where our view will be rendered. When you visit `localhost:3000/users/new` then the yield will be replaced by the contents of `app/views/users/new.html.erb` that we just modified previously.
+This is a keyword that lets our app know where our view will be rendered. When you visit [http://localhost:3000/users/new](http://localhost:3000) then the yield will be replaced by the contents of `app/views/users/new.html.erb` that we just modified previously.
 
 Before modifying the layout, we will remove the code we just added to the `app/views/users/new.html.erb` file.
 
@@ -291,6 +295,12 @@ Next up we'll add it right after the `yield` but before the `</body>` of the lay
     The time is now: <%= Time.now %>
 ```
 
+The file should look like this:
+
+```erb
+:::-> $ cat app/views/layouts/application.html.erb
+```
+
 Save your file and refresh your webpage, it should look the same. Now visit another page like [http://localhost:3000/users](http://localhost:3000/users) and you'll notice that the time follows us on all our pages.
 
 We're done with views for now.
@@ -301,11 +311,11 @@ It's time to take a step back and talk about an important piece of the web. When
 
 Even in fancy "single page web apps" that do not reload when you interact with them (such as google maps), a request/response cycle is still happening behind the scenes with javascript.
 
-We've already seen this request/response cycle in action, but how did Rails know what to do when it received a request to `localhost:3000/users/new`?
+We've already seen this request/response cycle in action, but how did Rails know what to do when it received a request to [localhost:3000/users/new](http://localhost:3000/users/new)?
 
-> Note: The part after `localhost:3000` is known as a "path". For instance the path of `localhost:3000/users/new` is `/users/new`.
+> Note: The part after [localhost:3000](http://localhost:3000) is known as a "path". For instance the path of [localhost:3000/users/new](http://localhost:3000/users/new) is `/users/new`.
 
-Rails knows how to map a path to a controller action. I know we haven't looked at controllers, but we will. It does this through a routes file. Open `config/routes.rb` up now:
+Rails knows how to map a path to a controller action. I know we haven't looked at controllers, but we will. It does this through a routes file. Open `config/routes.rb` up now, it should look like this:
 
 ```ruby
 :::-> $ cat config/routes.rb
@@ -315,13 +325,13 @@ You'll see there's not much there. There is one method `resources`, this is a fa
 
 The output is a bit hard to parse at first. We'll look at the "URI Pattern" part. Don't worry about the format part.
 
-If you scan the list you'll see `/users/new` which we visited to add a new user to the bank. You'll also see `/users/:id` which we saw after creating our first user when we were redirected to `localhost:3000/users/1` where in this case our `:id` is `1`.
+If you scan the list you'll see `/users/new` which we visited to add a new user to the bank. You'll also see `/users/:id` which we saw after creating our first user when we were redirected to [localhost:3000/users/1](http://localhost:3000/users/1) where in this case our `:id` is `1`.
 
-Next to these items you'll notice another column called `Controller#Action`. Items are in that list in the format of a controller a hash (`#`) and then the action. All of ours our currently in the `users` controller with different actions.
+Next to these items you'll notice another column called `Controller#Action`. Items are in that list in the format of a controller a hash (`#`) and then the action. All of ours are currently in the `users` controller with different actions.
 
 Let's take a look at `/users/new`. This maps to the `users#new` controller.
 
-Go ahead and open up the `users` controller. It is located at `app/controllers/users_controller.rb`.
+Go ahead and open up the `users` controller. It is located at `app/controllers/users_controller.rb`. It should look like this:
 
 ```ruby
 :::-> $ cat app/controllers/users_controller.rb  | ruby -e 'STDIN.read =~ /(.*def new.*?end)/m ; puts $1 ' | xargs -0 printf '%s\n# ...\n'
@@ -367,9 +377,9 @@ You can see that the `user` variable that was passed into `render`, and which ca
 
 What does all this mean? We just mentally traced a Request/Response cycle in our code. Not totally following me?
 
-In this case a user opens a browser and visits [localhost:3000/user/new](http://localhost:3000/user/new).
+In this case a user opens a browser and visits [localhost:3000/users/new](http://localhost:3000/users/new).
 
-Rails gets the request, sees that the path is `user/new`. It then knows from the `config/routes.rb` file to map that to the `users_controller` and the `new` action.
+Rails gets the request, sees that the path is `users/new`. It then knows from the `config/routes.rb` file to map that to the `users_controller` and the `new` action.
 
 From there the `new` action is called. The `@user` variable is created. It's then passed to the view file `app/views/users/new.html.erb` where it's then passed to our partial view in `app/views/users/_form.html.erb` and used to generate a form.
 
@@ -387,10 +397,10 @@ We're going to create a controller. Previously we used `$ rails generate scaffol
 :::>> $ rails generate controller welcome
 ```
 
-This generated a controller for us called "welcome". While there were a bunch of support files created, the only thing we want to look at is:
+This generated a controller for us called "welcome". While there were a bunch of support files created, the only thing we want to look is one file, the `app/controllers/welcome_controller.rb` should look like this:
 
 ```sh
-:::>> $ cat app/controllers/welcome_controller.rb
+:::-> $ cat app/controllers/welcome_controller.rb
 ```
 
 Not very much there right? I told you there would be less magic in this section.
@@ -420,7 +430,7 @@ It's a controller action that we need to add. When you call it it will render `a
 The file should look like this:
 
 ```rb
-:::>> $ cat app/controllers/welcome_controller.rb
+:::-> $ cat app/controllers/welcome_controller.rb
 ```
 
 > Extra: In Ruby the "action" here of `index` is called a "method".
@@ -452,7 +462,7 @@ To do this you will need to create a new file. Create the file by running this c
 
 You should see this on the page:
 
-![](https://www.dropbox.com/s/9l3vhy84skb4p9d/Screenshot%202018-04-02%2012.30.25.png?raw=1)
+![](https://www.dropbox.com/s/qmuw5lvsyvgkq4h/Screenshot%202018-04-08%2011.03.59.png?raw=1)
 
 > Note: I may switch browsers for some screenshots. You don't need to do the same.
 
