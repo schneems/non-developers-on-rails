@@ -8,7 +8,7 @@ STOP -->
 
 ## Prequel
 
-If you didn't already follow the instructions in the previous section to generate a rails app named `my_bank_app` do so now. We'll wait. You should also be in that directory:
+If you didn't already follow the instructions in the previous section to generate a rails app named `my_bank_app`, do so now. We'll wait. You should also be in that directory:
 
 ```
 $ rails _5.1.6_ new my_bank_app
@@ -36,19 +36,19 @@ Open up a new command line tab. On a mac you can do that by pressing CMD+T.
 
 When you type in a command, make sure you always see the `$` in your own command line, if you're entering in text and it doesn't appear to be doing anything, you may accidentally be inside of a server tab.
 
-Navigate to the same directory as `my_bank_app` in this new tab using `cd`. If you don't remember how to get to that directory you can stop your server by pressing `Control+C` (note that it's Control and not CMD this time) inside of the server window. Once you've done that you can get the current directory by running `$ pwd`.
+Navigate to the same directory as `my_bank_app` in this new tab using `cd`. If you don't remember how to get to that directory, you can stop your server by pressing `Control+C` (note that it's Control and not CMD this time) inside of the server window. Once you've done that, you can get the current directory by running `$ pwd`.
 
-Verify that you're in the `my_bank_app` by running this command and verifying you get the same output:
+<!-- Verify that you're in the `my_bank_app` by running this command and verifying you get the same output:
 
 ```sh
 $ bin/rails test
-Run options: --seed 20559
+Run options: --seed 2539
 
 # Running:
 
 
 
-Finished in 0.000517s, 0.0000 runs/s, 0.0000 assertions/s.
+Finished in 0.000395s, 0.0000 runs/s, 0.0000 assertions/s.
 0 runs, 0 assertions, 0 failures, 0 errors, 0 skips
 ```
 
@@ -56,11 +56,11 @@ Finished in 0.000517s, 0.0000 runs/s, 0.0000 assertions/s.
 
 > Extra: This test command is used by developers to ensure the validity of their code. Most good developers will write automated tests for new features as they build them. We won't be writing tests for now.
 
-This verifies that you're in the correct directory.
+This verifies that you're in the correct directory. -->
 
 ## Make your first model
 
-The first thing we're going to do is create a model. In programming a model is an abstract concept that represents somepart of your logic. A model should always be a noun (i.e. a person, place or thing). In this case we'll start with a `user` model (as is typical of most web apps).
+The first thing we're going to do is create a model. In programming, a model is an abstract concept that represents somepart of your logic. A model should always be a noun (i.e. a person, place or thing). In this case, we'll start with a `user` model (as is typical of most web apps).
 
 Rails comes with a powerful command line tool for generating boilerplate code. It will save us a lot of typing and potential errors, however it does perhaps too much and is too "magical". We'll look at some of the output and in a later section do some of these operations manually.
 
@@ -69,7 +69,7 @@ Run this command, and note that `user` is not plural (i.e. does not end in an "s
 ```sh
 $ bin/rails generate scaffold user name:string
       invoke  active_record
-      create    db/migrate/20180408042931_create_users.rb
+      create    db/migrate/20180408050013_create_users.rb
       create    app/models/user.rb
       invoke    test_unit
       create      test/models/user_test.rb
@@ -113,29 +113,29 @@ This `generate` command did a whole lot. We'll look into it more later, but firs
 
 While we generated a bunch of code and some configuration, we need to let our database for our app know that it needs to update to the new configuration. We can do this by "migrating" the database. This is a fancy way of saying applying new configuration.
 
-> Extra: If you look in your `db/migrate` folder you'll see one file that contains the isntructions for our database.
+> Extra: If you look in your `db/migrate` folder, you'll see one file that contains the instructions for our database.
 
 To migrate the database run this command:
 
 ```
 $ bin/rails db:migrate
-== 20180408042931 CreateUsers: migrating ======================================
+== 20180408050013 CreateUsers: migrating ======================================
 -- create_table(:users)
-   -> 0.0009s
-== 20180408042931 CreateUsers: migrated (0.0009s) =============================
+   -> 0.0008s
+== 20180408050013 CreateUsers: migrated (0.0009s) =============================
 ```
 
-While some of the output is based on a timestamp (the numbers you see before `CreateUsers:` the rest should be very similar.
+While some of the output is based on a timestamp (the numbers you see before `CreateUsers:`, the rest should be very similar.
 
-Make sure that you have a server running in one of your terminal tabs. If not you can run:
+Make sure that you have a server running in one of your terminal tabs. If not, you can run:
 
 ```
 $ bin/rails server
 ```
 
-> Extra: Many of the very popular commands have shortcuts, for instance `$ rails s` is the same as `$ rails server` and `$ rails g` is the same as `rails generate`. For the sake of clarity I will always use the full command.
+> Extra: Many of the very popular commands have shortcuts, for instance `$ rails s` is the same as `$ rails server` and `$ rails g` is the same as `rails generate`. For the sake of clarity, I will always use the full command.
 
-Now that you've verified that your server is running visit [http://localhost:3000/users/new](http://localhost:3000/users/new).
+Now that you've verified that your server is running, visit [http://localhost:3000/users/new](http://localhost:3000/users/new).
 
 The webpage should look like this:
 
@@ -212,9 +212,9 @@ Now that you've created another user via the console, open up your browser back 
 
 ## Views
 
-We've created a model, the next thing we will look at is modifying a view.
+We've created a model. The next thing we will look at is modifying a view.
 
-In the editor of your choice (I recommend Atom or Sublime) open your `my_bank_app` folder.
+In the editor of your choice (I recommend Atom or Sublime), open your `my_bank_app` folder.
 
 In your editor go to File >> Open and then navigate to your `my_bank_app`. Highlight that folder and click the "open" button".
 
@@ -244,7 +244,7 @@ It's not much to look at, but you can see that it has some html tags and some ot
 <%= %>
 ```
 
-> Extra: In Ruby this style of a view file is known as ERB which stands for "Embedded RuBy" since we're embedding ruby code from within our HTML file.
+> Extra: In Ruby, this style of a view file is known as ERB which stands for "Embedded Ruby" since we're embedding ruby code from within our HTML file.
 
 We can put Ruby code in these tags and when the view is rendered, the Ruby code will be run.
 
@@ -345,7 +345,7 @@ When you refresh the page, notice that the time updates.
 
 It's a bit weird that it's only on that one page though. It would be better if the time showed up on every page, don't you think?
 
-To do this we're going to look at changing the a layout. In Rails each view is wrapped by a layout before being rendered. You can see the global layout by looking at `app/views/layouts/application.html.erb`.
+To do this we're going to look at changing the a layout. In Rails, each view is wrapped by a layout before being rendered. You can see the global layout by looking at `app/views/layouts/application.html.erb`.
 
 Inside of this file you'll notice the erb block that looks like this:
 
@@ -355,7 +355,7 @@ Inside of this file you'll notice the erb block that looks like this:
 
 This is a keyword that lets our app know where our view will be rendered. When you visit `localhost:3000/users/new` then the yield will be replaced by the contents of `app/views/users/new.html.erb` that we just modified previously.
 
-Before modifying the layout we will remove the code we just added to the `app/views/users/new.html.erb` file.
+Before modifying the layout, we will remove the code we just added to the `app/views/users/new.html.erb` file.
 
 
 Next up we'll add it right after the `yield` but before the `</body>` of the layout:
@@ -373,7 +373,7 @@ We're done with views for now.
 
 ## Request Response Cycle
 
-It's time to take a step back and talk about an important piece of the web. When you enter in a url into an address bar you're making a Request to the webserver to send you the data you need. The server takes the URL, decides based on the path (and sometimes other things such as logged in status) what info you need. It then sends you back a response. This response is mostly HTML that will render in your browser.
+It's time to take a step back and talk about an important piece of the web. When you enter in a url into an address bar, you're making a Request to the webserver to send you the data you need. The server takes the URL, decides based on the path (and sometimes other things such as logged in status) what info you need. It then sends you back a response. This response is mostly HTML that will render in your browser.
 
 Even in fancy "single page web apps" that do not reload when you interact with them (such as google maps), a request/response cycle is still happening behind the scenes with javascript.
 
@@ -433,7 +433,7 @@ http://rubular.com/r/kW7w7jwdfF
 then we append a # ...
 -->
 
-The "new" action is denoted by `def new`. Inside of that method you'll see code that looks like this:
+The "new" action is denoted by `def new`. Inside of that method, you'll see code that looks like this:
 
 ```
 @user = User.new
@@ -527,7 +527,7 @@ class WelcomeController < ApplicationController
 end
 ```
 
-Not very much their right? I told you there would be less magic in this section.
+Not very much there right? I told you there would be less magic in this section.
 
 The next thing we need is a way to "route" to this controller.
 
