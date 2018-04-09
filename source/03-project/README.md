@@ -3,7 +3,7 @@
 
   Instead modify the rundoc script and re-run it.
 
-  Command: /Users/rschneeman/.gem/ruby/2.5.1/bin/rundoc build --path source/03-make-a-bank.md
+  Command: /Users/rschneeman/.gem/ruby/2.5.1/bin/rundoc build --path=source/03-make-a-bank.md
 STOP -->
 
 
@@ -21,32 +21,31 @@ STOP -->
 
 Having a user model is all fine and good, but what about an account? When I log into my banking app, I have a savings account and a checking account. In fact I have have multiple checking and savings accounts. Some banks offer money market accounts, certificate of deposits, and more.
 
-To build this into our app I'm going to give you the commands to run through, and then we're going to go back and look at what happened.
+To build this into our app, I'm going to give you the commands to run through, and then we're going to go back and look at what happened.
 
-The second model (after `User`) we will add to our app is the `Account` model. If you'll remember earlier a good model should always represent a noun (a person, place, or a thing). An `account` might be an abstract concept, but it is certainly a thing™️.
+The second model (after `User`) we will add to our app is the `Account` model. If you'll remember from earlier, a good model should always represent a noun (a person, place, or a thing). An `account` might be an abstract concept, but it is certainly a thing™️.
 
-Previously when we made our `User` we gave it one attribute: a name. What kinds of attributes would an account have?
+Previously when we made our `User`, we gave it one attribute: a name. What kinds of attributes would an account have?
 
 One that comes to mind right away is that an account would have an associated "balance".
 
-We'll also need a way to say that an account belongs to a specific user. In Rails we can do this from the generate command by specifying "references".
+We'll also need a way to say that an account belongs to a specific user. In Rails, we can do this from the generate command by specifying "references".
 
 ```sh
 $ bin/rails generate model account balance:decimal user:references
       invoke  active_record
-      create    db/migrate/20180408042317_create_accounts.rb
+      create    db/migrate/20180409180538_create_accounts.rb
       create    app/models/account.rb
       invoke    test_unit
       create      test/models/account_test.rb
       create      test/fixtures/accounts.yml
 ```
 
-To recap this command `generate` creates things. We're telling it to create a model, which will also generate a database migration. We want it to have a `balance` we our balance can contain decimal numbers like `19.20` so we want to use `decimal` instead of `integer`. Finally we want it to maintain a reference to the user that owns the account.
+To recap this command, `generate` creates things. We're telling it to create a model, which will also generate a database migration. We want it to have a `balance` and our balance can contain decimal numbers like `19.20`. So we want to use `decimal` instead of `integer`. Finally we want it to maintain a reference to the user that owns the account.
 
 Your account model should look like this:
 
 ```ruby
-$ cat app/models/account.rb
 class Account < ApplicationRecord
   belongs_to :user
 end
@@ -66,13 +65,13 @@ Open the folder `db/migrate`, you should see two files:
 
 ```
 $ ls db/migrate/
-20180408042307_create_users.rb
-20180408042317_create_accounts.rb
+20180409180529_create_users.rb
+20180409180538_create_accounts.rb
 ```
 
 > Note: Your file name numbers will be different than mine, Rails uses a timestamp for the file name to help keep the migrations in order.
 
-Take a look that ends in `create_accounts.rb`:
+Take a look at the file that ends in `create_accounts.rb`:
 
 ```ruby
 class CreateAccounts < ActiveRecord::Migration[5.1]
@@ -93,7 +92,7 @@ This file contains instructions in Ruby to tell the application how to make a ne
       t.decimal :balance
 ```
 
-And here is where we are defining telling our database that this model has a relationship with the `User` model:
+And here is where we are telling our database that this model has a relationship with the `User` model:
 
 ```ruby
       t.references :user, foreign_key: true
@@ -103,10 +102,10 @@ Go ahead and migrate your database by running:
 
 ```sh
 $ bin/rails db:migrate
-== 20180408042317 CreateAccounts: migrating ===================================
+== 20180409180538 CreateAccounts: migrating ===================================
 -- create_table(:accounts)
-   -> 0.0021s
-== 20180408042317 CreateAccounts: migrated (0.0022s) ==========================
+   -> 0.0024s
+== 20180409180538 CreateAccounts: migrated (0.0025s) ==========================
 ```
 
 We did this before after we added our `User` model. At this time we've got an account model. It can hold a balance, and it can be associated with a user. Not bad for one `$ bin/rails generate` command and a database migration.
@@ -119,7 +118,7 @@ If you take away one thing from this course, it will hopefully be that databases
 
 At a high level a database stores information. We're already using it to save the names of our users. Most databases are called "relational" databases. That is, not only can they store data (a user's name), but they can also store relationships between types of data (an account can belong to a user).
 
-One way to think about a database is to imagine a giant stored excel spreadsheet. In this analogy a worksheet represents a database table. We have one table for users and one table for accounts. In our tables we will have rows and columns (just like in excel). The columns are named, for instance in the user table we have a column named "name", and in the accounts table we have a column named "balance". So far so good.
+One way to think about a database is to imagine a giant stored excel spreadsheet. In this analogy a worksheet represents a database table. We have one table for users and one table for accounts. In our tables we will have rows and columns (just like in Excel). The columns are named. For instance, in the user table we have a column named "name", and in the accounts table we have a column named "balance". So far so good.
 
 Now every time you create a new user, you add a new row to the user table.
 
@@ -137,8 +136,8 @@ Here a representation of how we're storing data for the first two users in the u
 $ echo "SELECT * from users LIMIT 2;" | bin/rails dbconsole --header=on --mode=column
 id          name        created_at                  updated_at                
 ----------  ----------  --------------------------  --------------------------
-1           Schneems    2018-04-08 04:23:13.158533  2018-04-08 04:23:13.158533
-2           Ruby        2018-04-08 04:23:13.170470  2018-04-08 04:23:13.170470
+1           Schneems    2018-04-09 18:05:34.171337  2018-04-09 18:05:34.171337
+2           Ruby        2018-04-09 18:05:34.181171  2018-04-09 18:05:34.181171
 ```
 
 > Extra: The `echo` command outputs a string to standard out. The `SELECT * from users LIMIT 2;` above is known as SQL and tells our database what we want. We're passing it to the `$ bin/rails dbconsole` command via a pipe `|`. The flags `--header=on --mode=column` are used to format the output.
@@ -161,13 +160,13 @@ That's a hard concept to visualize. It's much simpler seen in code. Right now yo
 $ bin/rails console
 ```
 
-> Note: In some of my output you might see `Switch to inspect mode.` due to the way i'm generating the output for this doc. You won't see that in your output. Also there might be some slight differences, but overall the outputs should be of a similar format.
+> Note: In some of my output you might see `Switch to inspect mode.` due to the way I'm generating the output for this doc. You won't see that in your output. Also there might be some slight differences, but overall the outputs should be of a similar format.
 
 We're going to grab our first user:
 
 ```
 > user = User.first
-#<User id: 1, name: "Schneems", created_at: "2018-04-08 04:23:13", updated_at: "2018-04-08 04:23:13">
+#<User id: 1, name: "Schneems", created_at: "2018-04-09 18:05:34", updated_at: "2018-04-09 18:05:34">
 ```
 
 What is the ID of this user?
@@ -183,7 +182,7 @@ We can now create an account that references this user:
 ```
 > user = User.first
 > Account.create(balance: 50.0, user_id: user.id)
-#<Account id: 1, balance: 0.5e2, user_id: 1, created_at: "2018-04-08 04:23:30", updated_at: "2018-04-08 04:23:30">
+#<Account id: 1, balance: 0.5e2, user_id: 1, created_at: "2018-04-09 18:05:51", updated_at: "2018-04-09 18:05:51">
 ```
 
 To prove it, we can get a reference of our original user from the account we just created:
@@ -191,7 +190,7 @@ To prove it, we can get a reference of our original user from the account we jus
 ```
 > account = Account.first
 > puts account.user
-#<User id: 1, name: "Schneems", created_at: "2018-04-08 04:23:13", updated_at: "2018-04-08 04:23:13">
+#<User id: 1, name: "Schneems", created_at: "2018-04-09 18:05:34", updated_at: "2018-04-09 18:05:34">
 ```
 
 Notice that the ID of the user returned is the same as the foreign key in `account.user_id`.
@@ -204,10 +203,10 @@ What happens if we try to get the account from the user?
 Please specify a valid ruby command or the path of a script to run.
 Run 'bin/rails runner -h' for help.
 
-undefined method `accounts' for #<User:0x00007ff0238307f0>
+undefined method `accounts' for #<User:0x00007f915cb45600>
 ```
 
-Looks like there's an error. If you remember there was an extra line in the `app/models/account.rb` that told Rails that it belonged to a user, however we didn't tell Rails how a user is related to an account. Let's do that now.
+Looks like there's an error. If you remember there was an extra line in the `app/models/account.rb`, that told Rails that it belonged to a user, however we didn't tell Rails how a user is related to an account. Let's do that now.
 
 In file `app/models/user.rb`, on line 2 add:
 
@@ -217,7 +216,7 @@ In file `app/models/user.rb`, on line 2 add:
 
 Each relationship has to go two ways. In this case an account belongs to a user, and the user can have many accounts. Rails can do quite a few different variations of relationships. Has one and belongs to is likely the most common.
 
-Start your console again if you stopped it. If you still have the old console open you'll need to tell it to reload your code so it knows something changed. You can run:
+Start your console again if you stopped it. If you still have the old console open, you'll need to tell it to reload your code so it knows something changed. You can run:
 
 ```
 > reload!
@@ -228,7 +227,7 @@ Now try that code that failed previously:
 ```
 > user = User.first
 > puts user.accounts.first
-#<Account id: 1, balance: 0.5e2, user_id: 1, created_at: "2018-04-08 04:23:30", updated_at: "2018-04-08 04:23:30">
+#<Account id: 1, balance: 0.5e2, user_id: 1, created_at: "2018-04-09 18:05:51", updated_at: "2018-04-09 18:05:51">
 ```
 
 Worked like a charm!
@@ -239,7 +238,7 @@ Now that we've got a new model and we understand relations, let's do something w
 
 I'm assuming that you already created a view, controller, and added a route for "Welcome".
 
-Since we don't have any kind of a login behvior yet, we'll pretend that the first user in our database is the one logged in. To do this, add a line to your welcome controller:
+Since we don't have any kind of a login behavior yet, we'll pretend that the first user in our database is the one logged in. To do this, add a line to your welcome controller:
 
 
 At the end of `app/controllers/welcome_controller.rb` add:
@@ -294,9 +293,9 @@ If you made more than one account for your user by accident (or on purpose) then
 
 ![](https://www.dropbox.com/s/udil9z3mqt89rjt/Screenshot%202018-04-02%2014.29.53.png?raw=1)
 
-If you get an error try to go back and copy the code character for character. You can also use any error messages you get to try to tell you where the problem is.
+If you get an error, try to go back and copy the code character for character. You can also use any error messages you get to try to tell you where the problem is.
 
-I introduced a new format in this view that you've not seen before. That `do ||` format is called a block.
+<!-- I introduced a new format in this view that you've not seen before. That `do ||` format is called a block. -->
 
 <!--
 ## Block syntax
@@ -328,14 +327,14 @@ While the app now has users, and it has accounts, it does not have any way of tr
 
 If you guessed "another model", you would be right. What do you think we should call a model that lets us transfer money from accounts? How about a 'transaction' model.
 
-When data is transfered between accounts what information do we need? First we need to reference two accounts where the money is being transfered to and from. Next we need to store the amount of money being transfered.
+When data is transfered between accounts, what information do we need? First we need to reference two accounts where the money is being transfered to and from. Next we need to store the amount of money being transfered.
 
 To accomplish this I want to have a `amount` column, a `to_account` reference, and a `from_account` reference.
 
 ```sh
 $ bin/rails generate scaffold transaction from_account:references to_account:references amount:decimal
       invoke  active_record
-      create    db/migrate/20180408042340_create_transactions.rb
+      create    db/migrate/20180409180558_create_transactions.rb
       create    app/models/transaction.rb
       invoke    test_unit
       create      test/models/transaction_test.rb
@@ -393,14 +392,14 @@ class CreateTransactions < ActiveRecord::Migration[5.1]
 end
 ```
 
-In file `db/migrate/20180408042340_create_transactions.rb` remove:
+In file `db/migrate/20180409180558_create_transactions.rb` remove:
 
 ```ruby
       t.references :from_account, foreign_key: true
       t.references :to_account, foreign_key: true
 ```
 
-In file `db/migrate/20180408042340_create_transactions.rb`, on line 4 add:
+In file `db/migrate/20180409180558_create_transactions.rb`, on line 4 add:
 
 ```ruby
       t.references :to_account, index: true, foreign_key: { to_table: :accounts }
@@ -429,10 +428,10 @@ Next up migrate the database:
 
 ```sh
 $ bin/rails db:migrate
-== 20180408042340 CreateTransactions: migrating ===============================
+== 20180409180558 CreateTransactions: migrating ===============================
 -- create_table(:transactions)
-   -> 0.0029s
-== 20180408042340 CreateTransactions: migrated (0.0029s) ======================
+   -> 0.0022s
+== 20180409180558 CreateTransactions: migrated (0.0023s) ======================
 ```
 
 After the database is migrated we need to let Rails know about our association:
@@ -447,7 +446,6 @@ In file `app/models/transaction.rb`, on line 2 add:
 The whole file looks like this:
 
 ```
-$ cat app/models/transaction.rb
 class Transaction < ApplicationRecord
   belongs_to :to_account, class_name: "Account"
   belongs_to :from_account, class_name: "Account"
@@ -456,23 +454,23 @@ class Transaction < ApplicationRecord
 end
 ```
 
-In this case we had to specify a class name in addition to the name of the column.
+In this case, we had to specify a class name in addition to the name of the column.
 
-Really quick, before we go any further - make sure that there are at least two users with at least one accont each. In your `$ rails console` create one account:
+Really quick, before we go any further - make sure that there are at least two users with at least one accont each. In your `$ rails console`, create one account:
 
 ```
 > Account.create(balance: 50, user_id: 1)
-#<Account id: 2, balance: 0.5e2, user_id: 1, created_at: "2018-04-08 04:23:45", updated_at: "2018-04-08 04:23:45">
+#<Account id: 2, balance: 0.5e2, user_id: 1, created_at: "2018-04-09 18:06:02", updated_at: "2018-04-09 18:06:02">
 ```
 
 And then another (note that the user id changed):
 
 ```
 > Account.create(balance: 50, user_id: 2)
-#<Account id: 3, balance: 0.5e2, user_id: 2, created_at: "2018-04-08 04:23:47", updated_at: "2018-04-08 04:23:47">
+#<Account id: 3, balance: 0.5e2, user_id: 2, created_at: "2018-04-09 18:06:04", updated_at: "2018-04-09 18:06:04">
 ```
 
-Now if you go to [http://localhost:3000/transactions/new](http://localhost:3000/transactions/new) you'll see a page that looks like this:
+Now if you go to [http://localhost:3000/transactions/new](http://localhost:3000/transactions/new), you'll see a page that looks like this:
 
 ![](https://www.dropbox.com/s/slzdrfk5eqyv3f2/Screenshot%202018-04-02%2015.04.57.png?raw=1)
 
@@ -496,7 +494,6 @@ In file `app/models/transaction.rb`, on line 3 add:
 The whole file looks like this:
 
 ```
-$ cat app/models/transaction.rb
 class Transaction < ApplicationRecord
   belongs_to :to_account, class_name: "Account"
   after_commit :transfer_the_dough
@@ -513,11 +510,11 @@ class Transaction < ApplicationRecord
 end
 ```
 
-This code is saying that after the database record is created (that's our `after_commit` callback) run the method `transfer_the_dough`. Then inside of that method we're performing our logic of removing the transfer amount from one account and adding it to another account. Finally we're going to save both the from and true accounts back to the database.
+This code is saying that after the database record is created (that's our `after_commit` callback), run the method `transfer_the_dough`. Then inside of that method, we're performing our logic of removing the transfer amount from one account and adding it to another account. Finally we're going to save both the from and true accounts back to the database.
 
 Go back to your web browser to [http://localhost:3000/transactions/new](http://localhost:3000/transactions/new)
 
-In the "From account" field enter `1`. In the "To account" field enter `2`. Put any numeric value in the "Amount" field that is. Submit the form and you should see a page that looks like this:
+In the "From account" field enter `1`. In the "To account" field enter `2`. Put any numeric value in the "Amount" field. Submit the form and you should see a page that looks like this:
 
 ![](https://www.dropbox.com/s/9v9xt02bjdbi4i4/Screenshot%202018-04-03%2008.24.46.png?raw=1)
 
@@ -529,7 +526,7 @@ You can see a change in balance looking at your welcome page [http://localhost:3
 
 > Note: Your values and the number of accounts you've created may be different than mine.
 
-At this point and time we verified that the functionality of the app works, but that page we got after we made a new transaction wasn't very helpful. You can get back to it by visiting [http://localhost:3000/transactions/1](http://localhost:3000/transactions/1).
+At this point in time, we verified that the functionality of the app works, but that page we got after we made a new transaction wasn't very helpful. You can get back to it by visiting [http://localhost:3000/transactions/1](http://localhost:3000/transactions/1).
 
 We are going to make this page a bit more helpful. Open up `app/views/transactions/show.html.erb`.
 
@@ -621,7 +618,7 @@ In file `app/views/transactions/show.html.erb` write:
 <%= link_to 'Back', transactions_path %>
 ```
 
-When the page renders it should show more information for both the "from" and the "to" accounts:
+When the page renders, it should show more information for both the "from" and the "to" accounts:
 
 ![](https://www.dropbox.com/s/pzen1ij9mzgxp1t/Screenshot%202018-04-03%2008.49.44.png?raw=1)
 

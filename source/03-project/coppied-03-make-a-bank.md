@@ -46,26 +46,26 @@
 
 Having a user model is all fine and good, but what about an account? When I log into my banking app, I have a savings account and a checking account. In fact I have have multiple checking and savings accounts. Some banks offer money market accounts, certificate of deposits, and more.
 
-To build this into our app I'm going to give you the commands to run through, and then we're going to go back and look at what happened.
+To build this into our app, I'm going to give you the commands to run through, and then we're going to go back and look at what happened.
 
-The second model (after `User`) we will add to our app is the `Account` model. If you'll remember earlier a good model should always represent a noun (a person, place, or a thing). An `account` might be an abstract concept, but it is certainly a thing™️.
+The second model (after `User`) we will add to our app is the `Account` model. If you'll remember from earlier, a good model should always represent a noun (a person, place, or a thing). An `account` might be an abstract concept, but it is certainly a thing™️.
 
-Previously when we made our `User` we gave it one attribute: a name. What kinds of attributes would an account have?
+Previously when we made our `User`, we gave it one attribute: a name. What kinds of attributes would an account have?
 
 One that comes to mind right away is that an account would have an associated "balance".
 
-We'll also need a way to say that an account belongs to a specific user. In Rails we can do this from the generate command by specifying "references".
+We'll also need a way to say that an account belongs to a specific user. In Rails, we can do this from the generate command by specifying "references".
 
 ```sh
 :::>> $ bin/rails generate model account balance:decimal user:references
 ```
 
-To recap this command `generate` creates things. We're telling it to create a model, which will also generate a database migration. We want it to have a `balance` we our balance can contain decimal numbers like `19.20` so we want to use `decimal` instead of `integer`. Finally we want it to maintain a reference to the user that owns the account.
+To recap this command, `generate` creates things. We're telling it to create a model, which will also generate a database migration. We want it to have a `balance` and our balance can contain decimal numbers like `19.20`. So we want to use `decimal` instead of `integer`. Finally we want it to maintain a reference to the user that owns the account.
 
 Your account model should look like this:
 
 ```ruby
-:::>> $ cat app/models/account.rb
+:::-> $ cat app/models/account.rb
 ```
 
 Not a whole lot going on. The only new thing is:
@@ -86,7 +86,7 @@ Open the folder `db/migrate`, you should see two files:
 
 > Note: Your file name numbers will be different than mine, Rails uses a timestamp for the file name to help keep the migrations in order.
 
-Take a look that ends in `create_accounts.rb`:
+Take a look at the file that ends in `create_accounts.rb`:
 
 ```ruby
 :::-> $ ls -Ad1 db/migrate/* | grep create_accounts.rb | xargs cat
@@ -98,7 +98,7 @@ This file contains instructions in Ruby to tell the application how to make a ne
 :::-> $ ls -Ad1 db/migrate/* | grep create_accounts.rb | xargs cat | grep balance
 ```
 
-And here is where we are defining telling our database that this model has a relationship with the `User` model:
+And here is where we are telling our database that this model has a relationship with the `User` model:
 
 ```ruby
 :::-> $ ls -Ad1 db/migrate/* | grep create_accounts.rb | xargs cat | grep user
@@ -120,7 +120,7 @@ If you take away one thing from this course, it will hopefully be that databases
 
 At a high level a database stores information. We're already using it to save the names of our users. Most databases are called "relational" databases. That is, not only can they store data (a user's name), but they can also store relationships between types of data (an account can belong to a user).
 
-One way to think about a database is to imagine a giant stored excel spreadsheet. In this analogy a worksheet represents a database table. We have one table for users and one table for accounts. In our tables we will have rows and columns (just like in excel). The columns are named, for instance in the user table we have a column named "name", and in the accounts table we have a column named "balance". So far so good.
+One way to think about a database is to imagine a giant stored excel spreadsheet. In this analogy a worksheet represents a database table. We have one table for users and one table for accounts. In our tables we will have rows and columns (just like in Excel). The columns are named. For instance, in the user table we have a column named "name", and in the accounts table we have a column named "balance". So far so good.
 
 Now every time you create a new user, you add a new row to the user table.
 
@@ -158,7 +158,7 @@ That's a hard concept to visualize. It's much simpler seen in code. Right now yo
 $ bin/rails console
 ```
 
-> Note: In some of my output you might see `Switch to inspect mode.` due to the way i'm generating the output for this doc. You won't see that in your output. Also there might be some slight differences, but overall the outputs should be of a similar format.
+> Note: In some of my output you might see `Switch to inspect mode.` due to the way I'm generating the output for this doc. You won't see that in your output. Also there might be some slight differences, but overall the outputs should be of a similar format.
 
 We're going to grab our first user:
 
@@ -201,7 +201,7 @@ What happens if we try to get the account from the user?
 :::-> fail.$ bin/rails runner "puts User.first.accounts.first.inspect"
 ```
 
-Looks like there's an error. If you remember there was an extra line in the `app/models/account.rb` that told Rails that it belonged to a user, however we didn't tell Rails how a user is related to an account. Let's do that now.
+Looks like there's an error. If you remember there was an extra line in the `app/models/account.rb`, that told Rails that it belonged to a user, however we didn't tell Rails how a user is related to an account. Let's do that now.
 
 ```
 :::>> file.append app/models/user.rb#2
@@ -210,7 +210,7 @@ Looks like there's an error. If you remember there was an extra line in the `app
 
 Each relationship has to go two ways. In this case an account belongs to a user, and the user can have many accounts. Rails can do quite a few different variations of relationships. Has one and belongs to is likely the most common.
 
-Start your console again if you stopped it. If you still have the old console open you'll need to tell it to reload your code so it knows something changed. You can run:
+Start your console again if you stopped it. If you still have the old console open, you'll need to tell it to reload your code so it knows something changed. You can run:
 
 ```
 > reload!
@@ -232,7 +232,7 @@ Now that we've got a new model and we understand relations, let's do something w
 
 I'm assuming that you already created a view, controller, and added a route for "Welcome".
 
-Since we don't have any kind of a login behvior yet, we'll pretend that the first user in our database is the one logged in. To do this, add a line to your welcome controller:
+Since we don't have any kind of a login behavior yet, we'll pretend that the first user in our database is the one logged in. To do this, add a line to your welcome controller:
 
 ```ruby
 :::-- file.remove app/controllers/welcome_controller.rb
@@ -290,9 +290,9 @@ If you made more than one account for your user by accident (or on purpose) then
 
 ![](https://www.dropbox.com/s/udil9z3mqt89rjt/Screenshot%202018-04-02%2014.29.53.png?raw=1)
 
-If you get an error try to go back and copy the code character for character. You can also use any error messages you get to try to tell you where the problem is.
+If you get an error, try to go back and copy the code character for character. You can also use any error messages you get to try to tell you where the problem is.
 
-I introduced a new format in this view that you've not seen before. That `do ||` format is called a block.
+<!-- I introduced a new format in this view that you've not seen before. That `do ||` format is called a block. -->
 
 <!--
 ## Block syntax
@@ -322,7 +322,7 @@ While the app now has users, and it has accounts, it does not have any way of tr
 
 If you guessed "another model", you would be right. What do you think we should call a model that lets us transfer money from accounts? How about a 'transaction' model.
 
-When data is transfered between accounts what information do we need? First we need to reference two accounts where the money is being transfered to and from. Next we need to store the amount of money being transfered.
+When data is transfered between accounts, what information do we need? First we need to reference two accounts where the money is being transfered to and from. Next we need to store the amount of money being transfered.
 
 To accomplish this I want to have a `amount` column, a `to_account` reference, and a `from_account` reference.
 
@@ -379,12 +379,12 @@ After the database is migrated we need to let Rails know about our association:
 The whole file looks like this:
 
 ```
-:::>> $ cat app/models/transaction.rb
+:::-> $ cat app/models/transaction.rb
 ```
 
-In this case we had to specify a class name in addition to the name of the column.
+In this case, we had to specify a class name in addition to the name of the column.
 
-Really quick, before we go any further - make sure that there are at least two users with at least one accont each. In your `$ rails console` create one account:
+Really quick, before we go any further - make sure that there are at least two users with at least one accont each. In your `$ rails console`, create one account:
 
 ```
 > Account.create(balance: 50, user_id: 1)
@@ -398,7 +398,7 @@ And then another (note that the user id changed):
 :::-> $ rails runner "puts Account.create(balance: 50, user_id: 2).inspect"
 ```
 
-Now if you go to [http://localhost:3000/transactions/new](http://localhost:3000/transactions/new) you'll see a page that looks like this:
+Now if you go to [http://localhost:3000/transactions/new](http://localhost:3000/transactions/new), you'll see a page that looks like this:
 
 ![](https://www.dropbox.com/s/slzdrfk5eqyv3f2/Screenshot%202018-04-02%2015.04.57.png?raw=1)
 
@@ -421,14 +421,14 @@ To do this we will use a "callback" in the transaction model.
 The whole file looks like this:
 
 ```
-:::>> $ cat app/models/transaction.rb
+:::-> $ cat app/models/transaction.rb
 ```
 
-This code is saying that after the database record is created (that's our `after_commit` callback) run the method `transfer_the_dough`. Then inside of that method we're performing our logic of removing the transfer amount from one account and adding it to another account. Finally we're going to save both the from and true accounts back to the database.
+This code is saying that after the database record is created (that's our `after_commit` callback), run the method `transfer_the_dough`. Then inside of that method, we're performing our logic of removing the transfer amount from one account and adding it to another account. Finally we're going to save both the from and true accounts back to the database.
 
 Go back to your web browser to [http://localhost:3000/transactions/new](http://localhost:3000/transactions/new)
 
-In the "From account" field enter `1`. In the "To account" field enter `2`. Put any numeric value in the "Amount" field that is. Submit the form and you should see a page that looks like this:
+In the "From account" field enter `1`. In the "To account" field enter `2`. Put any numeric value in the "Amount" field. Submit the form and you should see a page that looks like this:
 
 ![](https://www.dropbox.com/s/9v9xt02bjdbi4i4/Screenshot%202018-04-03%2008.24.46.png?raw=1)
 
@@ -440,7 +440,7 @@ You can see a change in balance looking at your welcome page [http://localhost:3
 
 > Note: Your values and the number of accounts you've created may be different than mine.
 
-At this point and time we verified that the functionality of the app works, but that page we got after we made a new transaction wasn't very helpful. You can get back to it by visiting [http://localhost:3000/transactions/1](http://localhost:3000/transactions/1).
+At this point in time, we verified that the functionality of the app works, but that page we got after we made a new transaction wasn't very helpful. You can get back to it by visiting [http://localhost:3000/transactions/1](http://localhost:3000/transactions/1).
 
 We are going to make this page a bit more helpful. Open up `app/views/transactions/show.html.erb`.
 
@@ -513,7 +513,7 @@ The file should look something like this:
 <%= link_to 'Back', transactions_path %>
 ```
 
-When the page renders it should show more information for both the "from" and the "to" accounts:
+When the page renders, it should show more information for both the "from" and the "to" accounts:
 
 ![](https://www.dropbox.com/s/pzen1ij9mzgxp1t/Screenshot%202018-04-03%2008.49.44.png?raw=1)
 
