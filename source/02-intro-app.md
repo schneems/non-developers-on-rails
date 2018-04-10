@@ -197,7 +197,7 @@ Before we make a valid change to the view, we will add some invalid code so you 
 
 The file should look like this:
 
-```
+```erb
 :::-> $ cat app/views/users/new.html.erb
 ```
 

@@ -62,7 +62,7 @@ We'll also need a way to say that an account belongs to a specific user. In Rail
 
 To recap this command, `generate` creates things. We're telling it to create a model, which will also generate a database migration. We want it to have a `balance` and our balance can contain decimal numbers like `19.20`. So we want to use `decimal` instead of `integer`. Finally we want it to maintain a reference to the user that owns the account.
 
-Your account model should look like this:
+Your account model should look like this in `app/models/account.rb`:
 
 ```ruby
 :::-> $ cat app/models/account.rb
@@ -86,7 +86,7 @@ Open the folder `db/migrate`, you should see two files:
 
 > Note: Your file name numbers will be different than mine, Rails uses a timestamp for the file name to help keep the migrations in order.
 
-Take a look at the file that ends in `create_accounts.rb`:
+Take a look at the `db/migrate` directory, the file that ends in `create_accounts.rb`:
 
 ```ruby
 :::-> $ ls -Ad1 db/migrate/* | grep create_accounts.rb | xargs cat
@@ -378,7 +378,7 @@ After the database is migrated we need to let Rails know about our association:
 
 The whole file looks like this:
 
-```
+```ruby
 :::-> $ cat app/models/transaction.rb
 ```
 
@@ -420,7 +420,7 @@ To do this we will use a "callback" in the transaction model.
 
 The whole file looks like this:
 
-```
+```ruby
 :::-> $ cat app/models/transaction.rb
 ```
 
