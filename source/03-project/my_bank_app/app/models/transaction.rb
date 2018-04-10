@@ -1,5 +1,6 @@
 class Transaction < ApplicationRecord
   belongs_to :to_account, class_name: "Account"
+  belongs_to :from_account, class_name: "Account"
   after_commit :transfer_the_dough
 
   def transfer_the_dough
@@ -8,7 +9,4 @@ class Transaction < ApplicationRecord
     from_account.save!
     to_account.save!
   end
-  belongs_to :from_account, class_name: "Account"
-  belongs_to :from_account
-  belongs_to :to_account
 end

@@ -208,6 +208,12 @@ Looks like there's an error. If you remember there was an extra line in the `app
   has_many :accounts
 ```
 
+The final `app/models/user.rb` should look like this:
+
+```
+:::-> $ cat app/models/user.rb
+```
+
 Each relationship has to go two ways. In this case an account belongs to a user, and the user can have many accounts. Rails can do quite a few different variations of relationships. Has one and belongs to is likely the most common.
 
 Start your console again if you stopped it. If you still have the old console open, you'll need to tell it to reload your code so it knows something changed. You can run:
@@ -242,7 +248,7 @@ Since we don't have any kind of a login behavior yet, we'll pretend that the fir
 ```
 
 ```ruby
-:::>> file.append app/controllers/welcome_controller.rb#
+:::>> file.append app/controllers/welcome_controller.rb#2
   def index
     @message = "Hello world"
     @user = User.first
@@ -368,7 +374,14 @@ Next up migrate the database:
 :::>> $ bin/rails db:migrate
 ```
 
-After the database is migrated we need to let Rails know about our association:
+After the database is migrated we need to let Rails know about our association.
+
+
+```
+:::>> file.remove app/models/transaction.rb
+  belongs_to :from_account
+  belongs_to :to_account
+```
 
 ```ruby
 :::>> file.append app/models/transaction.rb#2
@@ -407,7 +420,7 @@ If you try to enter some account IDs and an amount, it will work, but nothing wi
 To do this we will use a "callback" in the transaction model.
 
 ```ruby
-:::>> file.append app/models/transaction.rb#3
+:::>> file.append app/models/transaction.rb#4
   after_commit :transfer_the_dough
 
   def transfer_the_dough
