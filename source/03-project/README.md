@@ -3,7 +3,7 @@
 
   Instead modify the rundoc script and re-run it.
 
-  Command: /Users/rschneeman/.gem/ruby/2.6.0/bin/rundoc build --path=source/03-make-a-bank.md
+  Command: /Users/rschneeman/.gem/ruby/2.5.1/bin/rundoc build --path=source/03-make-a-bank.md
 STOP -->
 
 
@@ -34,22 +34,10 @@ We'll also need a way to say that an account belongs to a specific user. In Rail
 ```sh
 $ bin/rails generate model account balance:decimal user:references
       invoke  active_record
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
-      create    db/migrate/20180410005406_create_accounts.rb
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
+      create    db/migrate/20180410005654_create_accounts.rb
       create    app/models/account.rb
       invoke    test_unit
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      test/models/account_test.rb
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      test/fixtures/accounts.yml
 ```
 
@@ -77,8 +65,8 @@ Open the folder `db/migrate`, you should see two files:
 
 ```
 $ ls db/migrate/
-20180410005357_create_users.rb
-20180410005406_create_accounts.rb
+20180410005646_create_users.rb
+20180410005654_create_accounts.rb
 ```
 
 > Note: Your file name numbers will be different than mine, Rails uses a timestamp for the file name to help keep the migrations in order.
@@ -114,10 +102,10 @@ Go ahead and migrate your database by running:
 
 ```sh
 $ bin/rails db:migrate
-== 20180410005406 CreateAccounts: migrating ===================================
+== 20180410005654 CreateAccounts: migrating ===================================
 -- create_table(:accounts)
-   -> 0.0018s
-== 20180410005406 CreateAccounts: migrated (0.0018s) ==========================
+   -> 0.0017s
+== 20180410005654 CreateAccounts: migrated (0.0018s) ==========================
 ```
 
 We did this before after we added our `User` model. At this time we've got an account model. It can hold a balance, and it can be associated with a user. Not bad for one `$ bin/rails generate` command and a database migration.
@@ -146,10 +134,10 @@ Here a representation of how we're storing data for the first two users in the u
 
 ```
 $ echo "SELECT * from users LIMIT 2;" | bin/rails dbconsole --header=on --mode=column
-id          name        created_at                  updated_at
+id          name        created_at                  updated_at                
 ----------  ----------  --------------------------  --------------------------
-1           Schneems    2018-04-10 00:54:01.946591  2018-04-10 00:54:01.946591
-2           Ruby        2018-04-10 00:54:01.959566  2018-04-10 00:54:01.959566
+1           Schneems    2018-04-10 00:56:50.854976  2018-04-10 00:56:50.854976
+2           Ruby        2018-04-10 00:56:50.865880  2018-04-10 00:56:50.865880
 ```
 
 > Extra: The `echo` command outputs a string to standard out. The `SELECT * from users LIMIT 2;` above is known as SQL and tells our database what we want. We're passing it to the `$ bin/rails dbconsole` command via a pipe `|`. The flags `--header=on --mode=column` are used to format the output.
@@ -178,7 +166,7 @@ We're going to grab our first user:
 
 ```
 > user = User.first
-#<User id: 1, name: "Schneems", created_at: "2018-04-10 00:54:01", updated_at: "2018-04-10 00:54:01">
+#<User id: 1, name: "Schneems", created_at: "2018-04-10 00:56:50", updated_at: "2018-04-10 00:56:50">
 ```
 
 What is the ID of this user?
@@ -194,7 +182,7 @@ We can now create an account that references this user:
 ```
 > user = User.first
 > Account.create(balance: 50.0, user_id: user.id)
-#<Account id: 1, balance: 0.5e2, user_id: 1, created_at: "2018-04-10 00:54:17", updated_at: "2018-04-10 00:54:17">
+#<Account id: 1, balance: 0.5e2, user_id: 1, created_at: "2018-04-10 00:57:06", updated_at: "2018-04-10 00:57:06">
 ```
 
 To prove it, we can get a reference of our original user from the account we just created:
@@ -202,7 +190,7 @@ To prove it, we can get a reference of our original user from the account we jus
 ```
 > account = Account.first
 > puts account.user
-#<User id: 1, name: "Schneems", created_at: "2018-04-10 00:54:01", updated_at: "2018-04-10 00:54:01">
+#<User id: 1, name: "Schneems", created_at: "2018-04-10 00:56:50", updated_at: "2018-04-10 00:56:50">
 ```
 
 Notice that the ID of the user returned is the same as the foreign key in `account.user_id`.
@@ -215,7 +203,7 @@ What happens if we try to get the account from the user?
 Please specify a valid ruby command or the path of a script to run.
 Run 'bin/rails runner -h' for help.
 
-undefined method `accounts' for #<User:0x00007fbed2341de8>
+undefined method `accounts' for #<User:0x00007fa83e344908>
 ```
 
 Looks like there's an error. If you remember there was an extra line in the `app/models/account.rb`, that told Rails that it belonged to a user, however we didn't tell Rails how a user is related to an account. Let's do that now.
@@ -247,7 +235,7 @@ Now try that code that failed previously:
 ```
 > user = User.first
 > puts user.accounts.first
-#<Account id: 1, balance: 0.5e2, user_id: 1, created_at: "2018-04-10 00:54:17", updated_at: "2018-04-10 00:54:17">
+#<Account id: 1, balance: 0.5e2, user_id: 1, created_at: "2018-04-10 00:57:06", updated_at: "2018-04-10 00:57:06">
 ```
 
 Worked like a charm!
@@ -354,91 +342,37 @@ To accomplish this I want to have a `amount` column, a `to_account` reference, a
 ```sh
 $ bin/rails generate scaffold transaction from_account:references to_account:references amount:decimal
       invoke  active_record
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
-      create    db/migrate/20180410005425_create_transactions.rb
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
+      create    db/migrate/20180410005714_create_transactions.rb
       create    app/models/transaction.rb
       invoke    test_unit
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      test/models/transaction_test.rb
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      test/fixtures/transactions.yml
       invoke  resource_route
        route    resources :transactions
       invoke  scaffold_controller
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create    app/controllers/transactions_controller.rb
       invoke    erb
       create      app/views/transactions
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/transactions/index.html.erb
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/transactions/edit.html.erb
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/transactions/show.html.erb
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/transactions/new.html.erb
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/transactions/_form.html.erb
       invoke    test_unit
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      test/controllers/transactions_controller_test.rb
       invoke    helper
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/helpers/transactions_helper.rb
       invoke      test_unit
       invoke    jbuilder
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/transactions/index.json.jbuilder
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/transactions/show.json.jbuilder
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/views/transactions/_transaction.json.jbuilder
       invoke  test_unit
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create    test/system/transactions_test.rb
       invoke  assets
       invoke    coffee
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/assets/javascripts/transactions.coffee
       invoke    scss
-warning: Passing safe_level with the 2nd argument of ERB.new is deprecated. Do not use it, and specify other arguments as keyword arguments.
-warning: Passing trim_mode with the 3rd argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, trim_mode: ...) instead.
-warning: Passing eoutvar with the 4th argument of ERB.new is deprecated. Use keyword argument like ERB.new(str, eoutvar: ...) instead.
       create      app/assets/stylesheets/transactions.scss
       invoke  scss
    identical    app/assets/stylesheets/scaffolds.scss
@@ -466,14 +400,14 @@ class CreateTransactions < ActiveRecord::Migration[5.1]
 end
 ```
 
-In file `db/migrate/20180410005425_create_transactions.rb` remove:
+In file `db/migrate/20180410005714_create_transactions.rb` remove:
 
 ```ruby
       t.references :from_account, foreign_key: true
       t.references :to_account, foreign_key: true
 ```
 
-In file `db/migrate/20180410005425_create_transactions.rb`, on line 4 add:
+In file `db/migrate/20180410005714_create_transactions.rb`, on line 4 add:
 
 ```ruby
       t.references :to_account, index: true, foreign_key: { to_table: :accounts }
@@ -502,10 +436,10 @@ Next up migrate the database:
 
 ```sh
 $ bin/rails db:migrate
-== 20180410005425 CreateTransactions: migrating ===============================
+== 20180410005714 CreateTransactions: migrating ===============================
 -- create_table(:transactions)
    -> 0.0028s
-== 20180410005425 CreateTransactions: migrated (0.0028s) ======================
+== 20180410005714 CreateTransactions: migrated (0.0029s) ======================
 ```
 
 After the database is migrated we need to let Rails know about our association.
@@ -540,14 +474,14 @@ Really quick, before we go any further - make sure that there are at least two u
 
 ```
 > Account.create(balance: 50, user_id: 1)
-#<Account id: 2, balance: 0.5e2, user_id: 1, created_at: "2018-04-10 00:54:29", updated_at: "2018-04-10 00:54:29">
+#<Account id: 2, balance: 0.5e2, user_id: 1, created_at: "2018-04-10 00:57:18", updated_at: "2018-04-10 00:57:18">
 ```
 
 And then another (note that the user id changed):
 
 ```
 > Account.create(balance: 50, user_id: 2)
-#<Account id: 3, balance: 0.5e2, user_id: 2, created_at: "2018-04-10 00:54:32", updated_at: "2018-04-10 00:54:32">
+#<Account id: 3, balance: 0.5e2, user_id: 2, created_at: "2018-04-10 00:57:21", updated_at: "2018-04-10 00:57:21">
 ```
 
 Now if you go to [http://localhost:3000/transactions/new](http://localhost:3000/transactions/new), you'll see a page that looks like this:
